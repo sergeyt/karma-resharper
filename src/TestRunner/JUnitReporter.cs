@@ -85,7 +85,7 @@ namespace Karma.TestRunner
 
 		private static IDictionary<string, TestCase> Parse(XDocument doc)
 		{
-			if (doc.Root == null) return null;
+			if (doc == null || doc.Root == null) return null;
 
 			var testSuite = doc.Root.Element("testsuite");
 			if (testSuite == null) return null;
@@ -119,7 +119,7 @@ namespace Karma.TestRunner
 				return message;
 			}
 
-			message = testCase.Element("failure").IfNotNull(x => x.Attribute("message").IfNotNull(a => a.Value));
+			message = testCase.Element("failure").IfNotNull(x => x.Value);
 			return string.IsNullOrEmpty(message) ? null : message;
 		}
 
