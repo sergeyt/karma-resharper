@@ -1,4 +1,4 @@
 karma-resharper
 ===============
 
-ReSharper jasmine test runner using karma-runner
+ReSharper plugin to run jasmine tests using [karma-runner](http://karma-runner.github.io).
