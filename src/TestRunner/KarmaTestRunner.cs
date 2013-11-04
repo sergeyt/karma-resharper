@@ -28,22 +28,22 @@ namespace Karma.TestRunner
 			if (task == null) return;
 
 			var projectFolder = task.ProjectFolder;
-			Action run = () =>
+			Action job = () =>
 			{
-				KarmaConfig.Build(projectFolder, Enumerable.Empty<string>());
-				if (!StartKarma(projectFolder)) return;
+				var confFile = KarmaConfig.Build(projectFolder, Enumerable.Empty<string>());
+				if (!StartKarma(projectFolder, confFile)) return;
 
 				// notify task server
-				var doc = XDocument.Load(Path.Combine(projectFolder, "test-results.xml"));
+				var doc = LoadResults(projectFolder);
 				JUnitReporter.Report(doc, Server, node);
 			};
 
-			run.BeginInvoke(ar => { }, null);
+			job.BeginInvoke(null, null);
 		}
 
 		public static void Run(IUnitTestLaunch launch, string projectFolder, IEnumerable<Element> elements)
 		{
-			Action run = () =>
+			Action job = () =>
 			{
 				var elementList = elements.ToList();
 				var testFiles = (from e in elementList.Flatten(x => x.Children.OfType<Element>())
@@ -52,27 +52,24 @@ namespace Karma.TestRunner
 					select pf.Location.FullPath)
 					.Distinct(StringComparer.CurrentCultureIgnoreCase);
 
-				KarmaConfig.Build(projectFolder, testFiles);
-				if (!StartKarma(projectFolder)) return;
+				var confFile = KarmaConfig.Build(projectFolder, testFiles);
+				if (!StartKarma(projectFolder, confFile)) return;
 
 				// notify task server
-				var resultsFile = Path.Combine(projectFolder, "test-results.xml");
-				if (File.Exists(resultsFile))
-				{
-					var doc = XDocument.Load(resultsFile);
-					JUnitReporter.Report(doc, launch, elementList);
-				}
+				var doc = LoadResults(projectFolder);
+				JUnitReporter.Report(doc, launch, elementList);
 			};
 
-			run.BeginInvoke(ar => { }, null);
+			job.BeginInvoke(null, null);
 		}
 
-		private static bool StartKarma(string projectFolder)
+		private static bool StartKarma(string projectFolder, string confFile)
 		{
 			try
 			{
-				Exec("cmd.exe", "/k karma start karma.conf.resharper.js --single-run --reporters dots,junit", projectFolder);
-				// Npm(projectFolder, "run resharper");
+				Exec("cmd.exe",
+					string.Format("/k karma start {0} --single-run", confFile),
+					projectFolder);
 				return true;
 			}
 			catch (Exception e)
@@ -82,19 +79,11 @@ namespace Karma.TestRunner
 			}
 		}
 
-		private static void Npm(string workingDir, string npmcl)
+		private static XDocument LoadResults(string projectFolder)
 		{
-			var nodeDir = GetNodejsDir();
-			var npmScript = Path.Combine(nodeDir, @"node_modules\npm\bin\npm-cli.js");
-			var nodeCl = string.Format("\"{0}\" {1}", npmScript, npmcl);
-
-			Exec(Path.Combine(nodeDir, "node.exe"), nodeCl, workingDir);
-		}
-
-		private static string GetNodejsDir()
-		{
-			// TODO get from config/settings or registry
-			return @"C:\Program Files\nodejs";
+			var path = Path.Combine(projectFolder, @".resharper\test-results.xml");
+			if (!File.Exists(path)) return null;
+			return XDocument.Load(path);
 		}
 
 		private static void Exec(string program, string cl, string workingDir)
