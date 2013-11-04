@@ -11,9 +11,9 @@ namespace Karma.TestRunner
 	/// </summary>
 	internal static class KarmaConfig
 	{
-		public static string Build(string projectFolder, IEnumerable<string> testFiles)
+		public static string Build(string projectFolder, IEnumerable<string> testFiles, bool isE2E)
 		{
-			const string confName = "karma.conf.js";
+			var confName = isE2E ? "karma.conf.e2e.js" : "karma.conf.js";
 			var assembly = typeof(KarmaConfig).Assembly;
 			var resName = assembly.GetManifestResourceNames().FirstOrDefault(x => x.EndsWith(confName));
 			var resStream = assembly.GetManifestResourceStream(resName);

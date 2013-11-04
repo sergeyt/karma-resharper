@@ -21,7 +21,11 @@ namespace Karma.TestRunner
 		{
 			foreach (var project in run.Elements.OfType<Element>().GroupBy(x => x.ProjectFolder))
 			{
-				KarmaTestRunner.Run(launch, project.Key, project);
+				var projectFolder = project.Key;
+				foreach (var set in project.GroupBy(x => x.IsE2E))
+				{
+					KarmaTestRunner.Run(launch, projectFolder, set, set.Key);
+				}
 			}
 			launch.Finished();
 		}

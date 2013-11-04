@@ -105,4 +105,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\karma.conf.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\karma.conf.e2e.js" />
+  </ItemGroup>
 </Project>

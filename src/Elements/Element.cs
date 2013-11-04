@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -25,6 +27,26 @@ namespace Karma.Elements
             TextRange = textRange;
             State = UnitTestElementState.Valid;
         }
+
+		public bool IsE2E
+		{
+			get
+			{
+				var folder = ProjectFolder;
+				var file = GetProjectFile().IfNotNull(f => f.Location.FullPath) ?? "";
+				if (file.StartsWith(folder))
+				{
+					file = file.Substring(folder.Length);
+				}
+				if (file.StartsWith("\\") || file.StartsWith("/"))
+				{
+					file = file.Substring(1);
+				}
+				var dir = file.Split(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar}).FirstOrDefault() ?? "";
+				return dir.StartsWith("e2e", StringComparison.OrdinalIgnoreCase) ||
+				       dir.EndsWith("e2e", StringComparison.OrdinalIgnoreCase);
+			}
+		}
 
         public IDeclaredElement GetDeclaredElement()
         {

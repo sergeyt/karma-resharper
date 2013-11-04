@@ -30,18 +30,19 @@ namespace Karma.TestRunner
 			var projectFolder = task.ProjectFolder;
 			Action job = () =>
 			{
-				var confFile = KarmaConfig.Build(projectFolder, Enumerable.Empty<string>());
+				// TODO split tasks by project and e2e
+				var confFile = KarmaConfig.Build(projectFolder, Enumerable.Empty<string>(), false);
 				if (!StartKarma(projectFolder, confFile)) return;
 
 				// notify task server
-				var doc = LoadResults(projectFolder);
+				var doc = LoadResults(projectFolder, false);
 				JUnitReporter.Report(doc, Server, node);
 			};
 
 			job.BeginInvoke(null, null);
 		}
 
-		public static void Run(IUnitTestLaunch launch, string projectFolder, IEnumerable<Element> elements)
+		public static void Run(IUnitTestLaunch launch, string projectFolder, IEnumerable<Element> elements, bool isE2E)
 		{
 			Action job = () =>
 			{
@@ -52,11 +53,11 @@ namespace Karma.TestRunner
 					select pf.Location.FullPath)
 					.Distinct(StringComparer.CurrentCultureIgnoreCase);
 
-				var confFile = KarmaConfig.Build(projectFolder, testFiles);
+				var confFile = KarmaConfig.Build(projectFolder, testFiles, isE2E);
 				if (!StartKarma(projectFolder, confFile)) return;
 
 				// notify task server
-				var doc = LoadResults(projectFolder);
+				var doc = LoadResults(projectFolder, isE2E);
 				JUnitReporter.Report(doc, launch, elementList);
 			};
 
@@ -79,9 +80,9 @@ namespace Karma.TestRunner
 			}
 		}
 
-		private static XDocument LoadResults(string projectFolder)
+		private static XDocument LoadResults(string projectFolder, bool isE2E)
 		{
-			var path = Path.Combine(projectFolder, @".resharper\test-results.xml");
+			var path = Path.Combine(projectFolder, isE2E ? @".resharper\e2e-test-results.xml" : @".resharper\test-results.xml");
 			if (!File.Exists(path)) return null;
 			return XDocument.Load(path);
 		}

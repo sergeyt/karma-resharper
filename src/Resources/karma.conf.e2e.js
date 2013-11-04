@@ -1,7 +1,7 @@
 module.exports = function(config) {
 
 	// apply base config
-	require('../karma.conf.js')(config);
+	require('../karma.conf.e2e.js')(config);
 
 	// this line will be replaced by karma-resharper plugin
 	var testFiles = [];
@@ -25,7 +25,7 @@ module.exports = function(config) {
 		files: files,
 		reporters: ['dots', 'junit'],
 		junitReporter: {
-			outputFile: '.resharper/test-results.xml'
+			outputFile: '.resharper/e2e-test-results.xml'
 		}
 	});
 };
