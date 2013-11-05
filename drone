@@ -10,6 +10,7 @@ mkdir bin/v7.1
 
 echo 'environment'
 echo $DRONE_BUILD_NUMBER
+env
 
 echo 'updating version.cs'
 BUILD_NUMBER=$DRONE_BUILD_NUMBER
