@@ -22,6 +22,23 @@ namespace Karma.TestRunner
 		{
 		}
 
+#if RESHARPER_7
+		public override TaskResult Start(TaskExecutionNode node)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override TaskResult Execute(TaskExecutionNode node)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override TaskResult Finish(TaskExecutionNode node)
+		{
+			throw new NotImplementedException();
+		}
+#endif
+
 		public override void ExecuteRecursive(TaskExecutionNode node)
 		{
 			var task = node.RemoteTask as TestTask;

@@ -2,8 +2,10 @@
 using System.Linq;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.TaskRunnerFramework;
 using JetBrains.ReSharper.UnitTestFramework;
 using Karma.Elements;
+using Karma.TestRunner;
 
 namespace Karma.TestProvider
 {
@@ -30,7 +32,14 @@ namespace Karma.TestProvider
             return string.Compare(x.ShortName, y.ShortName, StringComparison.Ordinal);
         }
 
-        public void ExploreExternal(UnitTestElementConsumer consumer)
+#if RESHARPER_7
+		public RemoteTaskRunnerInfo GetTaskRunnerInfo()
+		{
+			return new RemoteTaskRunnerInfo(typeof(KarmaTestRunner));
+		}
+#endif
+
+		public void ExploreExternal(UnitTestElementConsumer consumer)
         {
         }
 

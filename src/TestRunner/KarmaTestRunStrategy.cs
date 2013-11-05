@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if RESHARPER_8
+using System;
 using System.Linq;
 using JetBrains.DataFlow;
 using JetBrains.ProjectModel;
@@ -44,4 +45,4 @@ namespace Karma.TestRunner
         }
     }
 }
-
+#endif

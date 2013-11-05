@@ -4,16 +4,19 @@ using System.Xml;
 using JetBrains.Application;
 using JetBrains.Application.Progress;
 using JetBrains.Application.Settings;
+using JetBrains.Application.Settings.Store.Implementation;
 using JetBrains.DataFlow;
 using JetBrains.DocumentManagers.impl;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.DataContext;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Caches;
-using JetBrains.ReSharper.Psi.Files;
 using JetBrains.ReSharper.Psi.JavaScript.LanguageImpl;
 using JetBrains.ReSharper.Psi.JavaScript.Services;
+#if RESHARPER_8
+using JetBrains.ReSharper.Psi.Files;
 using JetBrains.ReSharper.Psi.Modules;
+#endif
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util.Caches;
 using JetBrains.ReSharper.UnitTestFramework;
@@ -27,12 +30,15 @@ namespace Karma.TestProvider
 	/// Cache for JavaScript tests.
 	/// </summary>
 	[PsiComponent]
-	public class TestCache : ISwitchingCache
+	public partial class TestCache
+#if RESHARPER_8
+		: ISwitchingCache
+#endif
 	{
 		private readonly JetHashSet<IPsiSourceFile> _dirtyFiles = new JetHashSet<IPsiSourceFile>();
 
 		private readonly CompactOneToListMap<IPsiSourceFile, IUnitTestElement> _elementsInFiles =
-			new CompactOneToListMap<IPsiSourceFile, IUnitTestElement>();
+			new CompactOneToListMap<IPsiSourceFile, IUnitTestElement>(null);
 
 		private readonly JasmineElementFactory myJasmineFactory;
 		private readonly KarmaTestProvider _testProvider;
@@ -62,8 +68,7 @@ namespace Karma.TestProvider
 			myJasmineFactory = jasmineFactory;
 			_persistentIndexManager = persistentIndexManager;
 			_javaScriptDependencyManager = javaScriptDependencyManager;
-			_settingsStore = settingsStore.BindToContextLive(lifetime,
-				ContextRange.ManuallyRestrictWritesToOneContext(solution.ToDataContext()));
+			_settingsStore = settingsStore.BindToContextLive(lifetime, ContextRange.ManuallyRestrictWritesToOneContext(solution.ToDataContext()), BindToContextFlags.Normal);
 			_settingsStore.Changed.Advise(lifetime, OnSettingsChange);
 			Active = new Property<bool>(lifetime, "KarmaTestCache", true);
 		}
@@ -100,18 +105,18 @@ namespace Karma.TestProvider
 			{
 				return null;
 			}
-			var dominantPsiFile = sourceFile.GetDominantPsiFile<JavaScriptLanguage>();
+			var dominantPsiFile = sourceFile.GetTheOnlyPsiFile(JavaScriptLanguage.Instance);
 			if (dominantPsiFile == null)
 			{
 				return null;
 			}
 			var explored = new List<IUnitTestElement>();
-			var transitiveDependencies = _javaScriptDependencyManager.GetTransitiveDependencies(dominantPsiFile.GetSourceFile());
+			var transitiveDependencies = _javaScriptDependencyManager.GetTransitiveDependencies(sourceFile);
 			ExploreJasmine(transitiveDependencies, dominantPsiFile, explored);
 			return explored;
 		}
 
-		void ICache.Drop(IPsiSourceFile sourceFile)
+		public void Drop(IPsiSourceFile sourceFile)
 		{
 			lock (_lock)
 			{
@@ -170,7 +175,7 @@ namespace Karma.TestProvider
 				{
 					var document = new XmlDocument();
 					document.LoadXml(xml);
-					var info = new PersistentUnitTestSessionInfo(sourceFile.GetSolution())
+					var info = new PersistentUnitTestSessionInfo(sourceFile.GetSolution(), null)
 					{
 						Elements = _elementsInFiles[sourceFile]
 					};
@@ -189,10 +194,19 @@ namespace Karma.TestProvider
 		{
 		}
 
+#if RESHARPER_8
 		void ICache.OnDocumentChange(IPsiSourceFile sourceFile, ProjectFileDocumentCopyChange change)
 		{
 			MarkAsDirty(sourceFile);
 		}
+#endif
+#if RESHARPER_7
+		void ICache.OnDocumentChange(ProjectFileDocumentCopyChange change)
+		{
+			// TODO
+			// MarkAsDirty(change.);
+		}
+#endif
 
 		void ICache.OnPsiChange(ITreeNode elementContainingChanges, PsiChangedElementType type)
 		{

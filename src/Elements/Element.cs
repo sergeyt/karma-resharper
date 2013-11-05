@@ -5,7 +5,9 @@ using System.Linq;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
+#if RESHARPER_8
 using JetBrains.ReSharper.UnitTestFramework.Strategy;
+#endif
 using JetBrains.Util;
 using JetBrains.Util.Special;
 using Karma.TestProvider;
@@ -88,10 +90,12 @@ namespace Karma.Elements
             return new[] { GetProjectFile() }.Where(x => x != null).ToArray();
         }
 
+#if RESHARPER_8
 		public IUnitTestRunStrategy GetRunStrategy(IHostProvider hostProvider)
 		{
 			return ServiceProvider.GetRunStrategy();
 		}
+#endif
 
         public abstract IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch);
 

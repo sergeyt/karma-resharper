@@ -30,10 +30,13 @@ namespace Karma.TestRunner
 				var testCase = testCases[key];
 				var task = testNode.RemoteTask;
 
+#if RESHARPER_8
 				if (testCase.Duration != null)
 				{
 					server.TaskDuration(task, testCase.Duration.Value);
 				}
+#endif
+
 				server.TaskFinished(task, testCase.Error, testCase.TaskResult);
 			}
 		}
