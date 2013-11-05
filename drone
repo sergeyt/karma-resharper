@@ -8,8 +8,12 @@ mkdir bin
 mkdir bin/v8.0
 mkdir bin/v7.1
 
+echo 'environment'
+echo $DRONE_BUILD_NUMBER
+
 echo 'updating version.cs'
-BUILD_VERSION=0.5.$DRONE_BUILD_NUMBER.0
+BUILD_NUMBER=$DRONE_BUILD_NUMBER
+BUILD_VERSION=0.5.$BUILD_NUMBER.0
 VERSION_CS="internal class VersionInfo { public const string Version = \"$BUILD_VERSION\"; }"
 rm src/Version.cs
 echo $VERSION_CS >> src/Version.cs
