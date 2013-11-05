@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "karma-resharper", "karma-resharper.csproj", "{6F6C0C31-B77E-42E0-82DF-8448F8E97376}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "v8.0", "v8.0.csproj", "{6F6C0C31-B77E-42E0-82DF-8448F8E97376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "v7.1", "v7.1.csproj", "{FAB56A15-2DE2-43B6-9559-46F534DE8403}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{6F6C0C31-B77E-42E0-82DF-8448F8E97376}.Debug|x86.Build.0 = Debug|x86
 		{6F6C0C31-B77E-42E0-82DF-8448F8E97376}.Release|x86.ActiveCfg = Release|x86
 		{6F6C0C31-B77E-42E0-82DF-8448F8E97376}.Release|x86.Build.0 = Release|x86
+		{FAB56A15-2DE2-43B6-9559-46F534DE8403}.Debug|x86.ActiveCfg = Debug|x86
+		{FAB56A15-2DE2-43B6-9559-46F534DE8403}.Debug|x86.Build.0 = Debug|x86
+		{FAB56A15-2DE2-43B6-9559-46F534DE8403}.Release|x86.ActiveCfg = Release|x86
+		{FAB56A15-2DE2-43B6-9559-46F534DE8403}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

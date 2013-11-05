@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FAB56A15-2DE2-43B6-9559-46F534DE8403}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>Karma</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\v7.1\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\v7.1\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Karma</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="TestRunner\JUnitReporter.cs" />
+    <Compile Include="TestRunner\KarmaConfig.cs" />
+    <Compile Include="Elements\JasmineElement.cs" />
+    <Compile Include="Elements\JasmineElementFactory.cs" />
+    <Compile Include="Elements\JasmineElementSerializer.cs" />
+    <Compile Include="TestProvider\JasmineFileExplorer.cs" />
+    <Compile Include="TestProvider\KarmaServiceProvider.cs" />
+    <Compile Include="Elements\JasmineSpecificationElement.cs" />
+    <Compile Include="Elements\JasmineSuiteElement.cs" />
+    <Compile Include="TestProvider\JasmineTestFileExplorer.cs" />
+    <Compile Include="TestProvider\KarmaTestProvider.cs" />
+    <Compile Include="TestRunner\KarmaTestRunStrategy.cs" />
+    <Compile Include="TestProvider\TestCache.cs" />
+    <Compile Include="Elements\Element.cs" />
+    <Reference Include="JetBrains.Platform.ReSharper.ComponentModel">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.DocumentManager">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.DocumentManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.DocumentModel">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.DocumentModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.ProjectModel">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.ProjectModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.Shell">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.Shell.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.Util">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.Platform.ReSharper.Util.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.ReSharper.Psi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.JavaScript">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.ReSharper.Psi.JavaScript.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.JavaScript.WinRT">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.ReSharper.Psi.JavaScript.WinRT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.TaskRunnerFramework">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.ReSharper.TaskRunnerFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.UnitTestFramework">
+      <HintPath>..\lib\resharper\v8.0\JetBrains.ReSharper.UnitTestFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Compile Include="TestRunner\KarmaTestRunner.cs" />
+    <Compile Include="TestProvider\TestTask.cs" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\karma.conf.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\karma.conf.e2e.js" />
+  </ItemGroup>
+</Project>
