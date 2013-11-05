@@ -5,6 +5,6 @@ mkdir bin/v8.0
 mkdir bin/v7.1
 
 gmcs @v8.0.rsp
-gmcs @v7.1.rsp
+#gmcs @v7.1.rsp
 
 
