@@ -1,4 +1,6 @@
 /t:library
+/r:System.Core.dll
+/r:System.Xml.Linq.dll
 /r:lib/resharper/v7.1/JetBrains.Platform.ReSharper.ComponentModel.dll
 /r:lib/resharper/v7.1/JetBrains.Platform.ReSharper.DocumentManager.dll
 /r:lib/resharper/v7.1/JetBrains.Platform.ReSharper.DocumentModel.dll

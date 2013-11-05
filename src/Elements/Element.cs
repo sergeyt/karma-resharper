@@ -35,7 +35,12 @@ namespace Karma.Elements
 			get
 			{
 				var folder = ProjectFolder;
-				var file = GetProjectFile().IfNotNull(f => f.Location.FullPath) ?? "";
+				var pf = GetProjectFile();
+				if (pf == null || pf.Location == null)
+				{
+					return false;
+				}
+				var file = pf.Location.FullPath;
 				if (file.StartsWith(folder))
 				{
 					file = file.Substring(folder.Length);
