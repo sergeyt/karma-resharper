@@ -1,3 +1,5 @@
+env
+
 # http://stackoverflow.com/questions/13365158/installing-mono-3-x-3-0-x-and-or-3-2-x
 # http://www.meebey.net/posts/mono_3.0_preview_debian_ubuntu_packages/
 echo "deb http://debian.meebey.net/experimental/mono /" >> /etc/apt/sources.list
