@@ -1,0 +1,17 @@
+/t:library
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.ComponentModel.dll
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.DocumentManager.dll
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.DocumentModel.dll
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.ProjectModel.dll
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.Shell.dll
+/r:lib/resharper/v8.0/JetBrains.Platform.ReSharper.Util.dll
+/r:lib/resharper/v8.0/JetBrains.ReSharper.Psi.dll
+/r:lib/resharper/v8.0/JetBrains.ReSharper.Psi.JavaScript.dll
+/r:lib/resharper/v8.0/JetBrains.ReSharper.Psi.JavaScript.WinRT.dll
+/r:lib/resharper/v8.0/JetBrains.ReSharper.TaskRunnerFramework.dll
+/r:lib/resharper/v8.0/JetBrains.ReSharper.UnitTestFramework.dll
+/define:RESHARPER_8
+/out:bin/v8.0/karma.dll
+/resource:src/Resources/karma.conf.js,karma.conf.js
+/resource:src/Resources/karma.conf.e2e.js,karma.conf.e2e.js
+/recurse:src\*.cs
