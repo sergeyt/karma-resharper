@@ -52,6 +52,7 @@
     <Compile Include="TestRunner\KarmaTestRunStrategy.cs" />
     <Compile Include="TestProvider\TestCache.cs" />
     <Compile Include="Elements\Element.cs" />
+    <Compile Include="Version.cs" />
     <Reference Include="JetBrains.Platform.ReSharper.ComponentModel">
       <HintPath>..\lib\resharper\v7.1\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
       <Private>False</Private>
